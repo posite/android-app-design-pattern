@@ -1,0 +1,6 @@
+안드로이드에서 mvc
+Activity(Controller)안에 뷰와 모델이 있어 모델이 뷰를 쉽게 변경 가능
+
+mvp
+Activity(Controller)는 권한을 presenter에게 주고 정보만 입력받는 Interface가 되고
+Presenter가 뷰와 모델을 제어, 모델이 뷰를 직접적으로 제어 불가
