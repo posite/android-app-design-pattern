@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import com.dragonguard.mvvmpractice.databinding.ActivityMainBinding
 
 
-//뷰모델 부분
+//인터페이스 부분
 class MainActivity : AppCompatActivity(){
     lateinit var binding : ActivityMainBinding
 
