@@ -5,7 +5,7 @@ import androidx.datastore.preferences.core.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class dataStore(private val dataStore: DataStore<Preferences>
+class UserDataStore(private val dataStore: DataStore<Preferences>
 ) {
     companion object {
         val USER_AGE_KEY = intPreferencesKey("int1")

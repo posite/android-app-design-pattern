@@ -1,5 +1,6 @@
 package com.dragonguard.chart
 
+import android.content.Context
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,31 +8,46 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import com.github.mikephil.charting.charts.BarChart
+import androidx.databinding.DataBindingUtil
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.asLiveData
+import com.dragonguard.chart.databinding.ActivityMainBinding
 import com.github.mikephil.charting.charts.RadarChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
-import com.github.mikephil.charting.formatter.ColorFormatter
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var chart: RadarChart
+    private lateinit var userManager: UserDataStore
+    private lateinit var binding: ActivityMainBinding
+    private var number1 = 0
+    private var number2 = 0
+    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_prefs")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         chart = findViewById(R.id.barchart)
         val values1 = ArrayList<RadarEntry>()
         val values2 = ArrayList<RadarEntry>()
+
+        userManager = UserDataStore(dataStore)
+        binding.click.setOnClickListener {
+            CoroutineScope(IO).launch {
+                userManager.storeUser(binding.int1.text.toString().toInt(), binding.int2.text.toString().toInt())
+            }
+        }
+
 
         for (i in 0 until 3) {
             val value1 = (Math.random() * 10).toFloat()
@@ -86,6 +102,23 @@ class MainActivity : AppCompatActivity() {
             while(true) {
                 checkNetworkState()
                 delay(10000L)
+            }
+        }
+        observeData()
+    }
+
+    private fun observeData() {
+        userManager.userInt1Flow.asLiveData().observe(this) {
+            if (it != null) {
+                number1 = it
+                binding.int1.setText(it.toString())
+            }
+        }
+
+        userManager.userInt2Flow.asLiveData().observe(this) {
+            if (it != null) {
+                number2 = it
+                binding.int2.setText(it.toString())
             }
         }
 
