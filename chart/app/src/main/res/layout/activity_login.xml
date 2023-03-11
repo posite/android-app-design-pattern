@@ -30,12 +30,15 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical">
-            <Button
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Github 로그인"
+                android:textColor="@color/white"
                 android:textAllCaps="false"
                 android:id="@+id/oauth_start"
+                android:background="@drawable/ripple"
                 android:textSize="20sp" />
 
         </LinearLayout>

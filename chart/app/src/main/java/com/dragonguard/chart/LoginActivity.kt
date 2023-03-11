@@ -1,10 +1,12 @@
 package com.dragonguard.chart
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.dragonguard.chart.databinding.ActivityLoginBinding
 import kotlinx.coroutines.CoroutineScope
@@ -56,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun getUserInfo(token: String) {
-        val coroutine = CoroutineScope(Dispatchers.IO)
+        val coroutine = CoroutineScope(Dispatchers.Main)
         coroutine.launch {
             val deffered = coroutine.async ( Dispatchers.IO ) {
                 viewmodel.getUserInfo(token)
@@ -64,6 +66,9 @@ class LoginActivity : AppCompatActivity() {
             val result = deffered.await()
             if(result != null) {
                 Log.d("result", "id : ${result.login}")
+                Toast.makeText(applicationContext, result.login, Toast.LENGTH_SHORT).show()
+                binding.oauthStart.isEnabled = false
+                binding.oauthStart.setTextColor(Color.BLACK)
             }
         }
     }
