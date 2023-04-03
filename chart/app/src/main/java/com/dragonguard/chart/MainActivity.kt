@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -17,6 +18,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.asLiveData
+import com.dragonguard.chart.ViewModel.Companion.MIllIS_IN_FUTURE
+import com.dragonguard.chart.ViewModel.Companion.TICK_INTERVAL
 import com.dragonguard.chart.databinding.ActivityMainBinding
 import com.github.mikephil.charting.charts.RadarChart
 import com.github.mikephil.charting.components.AxisBase
@@ -34,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var id = ""
     private var password = ""
+    private lateinit var timer: CountDownTimer
     private var viewmodel = ViewModel()
 
     //    private val dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_prefs")
@@ -61,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 //        }
 //    }
 
-//    private fun getUserInfo(token: String) {
+    //    private fun getUserInfo(token: String) {
 //        val coroutine = CoroutineScope(Dispatchers.IO)
 //        coroutine.launch {
 //            val deffered = coroutine.async ( Dispatchers.IO ) {
@@ -85,25 +89,10 @@ class MainActivity : AppCompatActivity() {
         val intent = intent
 
 
-//        userManager = UserDataStore(dataStore)
-        binding.click.setOnClickListener {
-//            CoroutineScope(IO).launch {
-//                if(binding.int1.text.toString().isNotEmpty() && binding.int2.text.toString().isNotEmpty()) {
-//                    userManager.storeUser(binding.int1.text.toString(), binding.int2.text.toString())
-//                } else {
-//                    Toast.makeText(applicationContext, "아이디와 비밀번호를 입력해 주세요", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//            val intent = Intent(
-//                Intent.ACTION_VIEW,
-//                Uri.parse("https://github.com/login/oauth/authorize?client_id=cc6bd0b5c9696c693ebe&scope=user")
-//            )
-//            intent.addFlags(FLAG_ACTIVITY_SINGLE_TOP)
+//        binding.click.setOnClickListener {
+//            val intent = Intent(this, LoginActivity::class.java)
 //            startActivity(intent)
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-//            viewmodel.auth("7d0d627700e9146b7a73")
-        }
+//        }
 
 
         for (i in 0 until 3) {
@@ -142,45 +131,24 @@ class MainActivity : AppCompatActivity() {
             }
         }
         chart.data = data1
-
-        val arr1: MutableList<String> = mutableListOf("선택하세요", "posite")
-        val spinnerAdapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arr1)
-        val spinner = findViewById<Spinner>(R.id.compare_user_spinner1)
-        spinner.adapter = spinnerAdapter
-        spinner.setSelection(1)
-//        if (NetworkCheck.checkNetworkState(this)) {
-//            Toast.makeText(applicationContext, "인터넷 연결됨!!", Toast.LENGTH_SHORT).show()
-//        } else {
-//            Toast.makeText(applicationContext, "인터넷 연결 안됨!!", Toast.LENGTH_SHORT).show()
-//        }
-
-//        val coroutine = CoroutineScope(Dispatchers.Main)
-//        coroutine.launch {
-//            while (true) {
-//                checkNetworkState()
-//                delay(10000L)
-//            }
-//        }
-//        observeData()
+        setUpCountDownTimer()
+        timer.start()
 
     }
 
+    private fun setUpCountDownTimer() {
+        timer = object : CountDownTimer(MIllIS_IN_FUTURE, TICK_INTERVAL) {
+            override fun onTick(millisUntilFinished: Long) {
+                val minute = millisUntilFinished/60000L
+                val second = millisUntilFinished%60000L/1000L
+                binding.remainTime.text = "$minute:$second"
+                viewmodel.timerJob.start()
+            }
 
-//    private fun observeData() {
-//        userManager.userInt1Flow.asLiveData().observe(this@MainActivity) {
-//            if (it != null) {
-//                id = it
-//                binding.int1.setText(it.toString())
-//            }
-//        }
-//
-//        userManager.userInt2Flow.asLiveData().observe(this@MainActivity) {
-//            if (it != null) {
-//                password = it
-//                binding.int2.setText(it.toString())
-//            }
-//        }
-//    }
+            override fun onFinish() {
+            }
+        }
+    }
 
     private fun checkNetworkState() {
         if (NetworkCheck.checkNetworkState(applicationContext)) {

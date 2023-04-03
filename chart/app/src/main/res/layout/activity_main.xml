@@ -22,63 +22,14 @@
             android:layout_height="0dp"
             android:layout_weight="2.5" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/remain_time"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:orientation="vertical">
-
-            <Spinner
-                android:id="@+id/compare_user_spinner1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:dropDownWidth="wrap_content"
-                android:spinnerMode="dropdown" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.5"
-            android:orientation="vertical"
-            android:weightSum="5">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:id="@+id/int1"
-                android:layout_weight="1"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:id="@+id/int2"
-                android:layout_weight="1"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:text="완료"
-                android:id="@+id/click"
-                android:layout_weight="1.5"/>
-
-        </LinearLayout>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text="확인"
-            android:id="@+id/check"
-            android:layout_weight="0.5"/>
+            android:layout_weight="1"
+            android:textSize="25sp"
+            android:textColor="@color/black"/>
 
     </LinearLayout>
 </layout>
