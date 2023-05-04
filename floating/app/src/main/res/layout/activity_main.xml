@@ -6,17 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.airbnb.lottie.LottieAnimationView
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/write_memo_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
-        app:lottie_rawRes="@raw/loading_page"
-        app:lottie_loop="true"
-        app:lottie_autoPlay="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="#ffffff"
+        android:contentDescription="fab_test"
+        app:fabSize="auto"
+        android:src="@drawable/notes"
+        app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.915"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
